@@ -3,173 +3,532 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Anniversary Alvin & Naila</title>
-    <!-- Import Font Romantis dari Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    
+    <title>Happy Wedding Anniversary - Alvi & Naila</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            background-color: #f7ede2;
             font-family: 'Montserrat', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            overflow-x: hidden;
         }
 
-        /* Container Utama Kartu Ucapan */
-        .card {
-            background: #ffffff;
-            width: 100%;
-            max-width: 500px;
-            padding: 40px 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
-            border: 2px solid #f3d5c0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+        .font-cursive {
+            font-family: 'Great Vibes', cursive;
         }
 
-        /* Hiasan Sudut/Frame */
-        .card::before {
+        .font-serif-title {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(225, 112, 133, 0.15);
+        }
+
+        /* Pulse Heart Animation */
+        @keyframes pulse-glow {
+            0%, 100% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 5px rgba(244, 63, 94, 0.6));
+            }
+            50% {
+                transform: scale(1.15);
+                filter: drop-shadow(0 0 15px rgba(244, 63, 94, 0.9));
+            }
+        }
+
+        .animate-heart-pulse {
+            animation: pulse-glow 1.8s infinite ease-in-out;
+        }
+
+        /* Falling Petals */
+        .petal {
+            position: fixed;
+            background-color: #f43f5e;
+            border-radius: 150% 0 150% 0;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 10;
+            animation: animatePetal 10s linear infinite;
+        }
+
+        .petal::after {
             content: '';
             position: absolute;
-            top: 12px;
-            bottom: 12px;
-            left: 12px;
-            right: 12px;
-            border: 1px solid #e8b4b8;
-            border-radius: 12px;
-            pointer-events: none;
+            top: -10%;
+            left: -10%;
+            width: 100%;
+            height: 100%;
+            border-radius: 150% 0 150% 0;
+            background-color: #fda4af;
         }
 
-        /* Simbol Hati Decorative */
-        .heart-icon {
-            font-size: 32px;
-            color: #d87070;
-            margin-bottom: 15px;
-            display: inline-block;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.15); }
-            100% { transform: scale(1); }
-        }
-
-        .subtitle {
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            color: #8c7a6b;
-            margin-bottom: 10px;
-        }
-
-        .title {
-            font-family: 'Great Vibes', cursive;
-            font-size: 46px;
-            color: #6b4c4c;
-            margin-bottom: 20px;
-            line-height: 1.2;
-        }
-
-        .names {
-            font-size: 22px;
-            font-weight: 600;
-            color: #d87070;
-            margin-bottom: 25px;
-            letter-spacing: 1px;
-        }
-
-        .divider {
-            width: 60px;
-            height: 2px;
-            background-color: #f3d5c0;
-            margin: 0 auto 25px auto;
-        }
-
-        .message {
-            font-size: 14px;
-            line-height: 1.8;
-            color: #555555;
-            margin-bottom: 30px;
-            font-weight: 300;
-        }
-
-        .footer-text {
-            font-style: italic;
-            font-size: 13px;
-            color: #8c7a6b;
-        }
-
-        /* Tombolopsional untuk cetak atau simpan */
-        .action-btn {
-            margin-top: 25px;
-            padding: 10px 20px;
-            background-color: #d87070;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: background 0.3s ease;
-        }
-
-        .action-btn:hover {
-            background-color: #c05555;
-        }
-
-        @media print {
-            .action-btn {
-                display: none;
+        @keyframes animatePetal {
+            0% {
+                opacity: 0.8;
+                top: -10%;
+                transform: translateX(0) rotate(0deg);
             }
-            body {
-                background: white;
+            100% {
+                opacity: 0;
+                top: 105%;
+                transform: translateX(100px) rotate(360deg);
             }
-            .card {
-                box-shadow: none;
-            }
+        }
+
+        /* Envelope / Flap Effects */
+        .envelope-wrapper {
+            perspective: 1000px;
+        }
+
+        .envelope-flap {
+            transform-origin: top;
+            transition: transform 0.8s ease-in-out, z-index 0.4s ease-in-out;
+        }
+
+        .envelope-flap.open {
+            transform: rotateX(180deg);
+            z-index: 0;
+        }
+
+        .card-content {
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.8s ease;
+        }
+
+        /* Gold Gradient Text & Borders */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #d4af37 0%, #f3e5ab 50%, #aa7c11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .border-gold-gradient {
+            border-image: linear-gradient(135deg, #d4af37, #f3e5ab, #aa7c11) 1;
+        }
+
+        /* Photo Frame Glow */
+        .photo-frame {
+            position: relative;
+            box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.3), 0 8px 10px -6px rgba(212, 175, 55, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .photo-frame:hover {
+            transform: translateY(-5deg) scale(1.02);
+            box-shadow: 0 15px 30px -5px rgba(244, 63, 94, 0.4), 0 10px 15px -5px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Custom Scrollbar for modal */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fda4af;
+            border-radius: 10px;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-amber-50 text-slate-800 relative flex flex-col justify-between items-center p-3 md:p-6 overflow-x-hidden">
 
-    <div class="card">
-        <div class="heart-icon">♥</div>
-        <div class="subtitle">Selamat Hari Jadi Pernikahan</div>
-        <h1 class="title">Happy Anniversary</h1>
-        
-        <div class="names">
-            Alvin &amp; Naila
+    <!-- Background Falling Petals Container -->
+    <div id="petals-container" class="fixed inset-0 pointer-events-none z-10"></div>
+
+    <!-- Audio Player Element (Soft Romantic Background Music) -->
+    <audio id="bg-music" loop preload="auto">
+        <!-- Royalty Free Romantic Piano Track -->
+        <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-piano-wedding-114251.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Audio Control Button -->
+    <button id="music-btn" onclick="toggleMusic()" class="fixed top-5 right-5 z-50 bg-white/80 backdrop-blur-md p-3.5 rounded-full shadow-lg border border-rose-200 text-rose-500 hover:bg-rose-50 hover:scale-110 transition-all duration-300 flex items-center justify-center group" title="Putar/Hentikan Musik">
+        <i id="music-icon" class="fas fa-music text-xl"></i>
+        <span class="max-w-0 overflow-hidden whitespace-nowrap group-hover:max-w-xs transition-all duration-500 ease-in-out text-xs font-semibold ml-0 group-hover:ml-2 text-rose-600">Musik Romantis</span>
+    </button>
+
+    <!-- Top Header Ribbon -->
+    <header class="text-center mt-2 mb-4 z-20">
+        <div class="inline-flex items-center gap-2 bg-rose-100/80 border border-rose-200 text-rose-700 px-4 py-1.5 rounded-full text-xs md:text-sm font-medium shadow-sm backdrop-blur-sm">
+            <i class="fas fa-sparkles text-amber-500"></i>
+            <span>Hari Jadi Pernikahan Abadi</span>
+            <i class="fas fa-sparkles text-amber-500"></i>
         </div>
+    </header>
 
-        <div class="divider"></div>
+    <!-- ENVELOPE / OPENING SCREEN -->
+    <div id="envelope-screen" class="w-full max-w-lg z-20 my-auto transition-all duration-700">
+        <div class="glass-card rounded-3xl p-8 text-center relative overflow-hidden border-2 border-rose-200/60 shadow-2xl">
+            <!-- Decorative Corners -->
+            <div class="absolute -top-10 -left-10 w-28 h-28 bg-rose-200/40 rounded-full blur-xl pointer-events-none"></div>
+            <div class="absolute -bottom-10 -right-10 w-28 h-28 bg-amber-200/40 rounded-full blur-xl pointer-events-none"></div>
+            
+            <div class="mb-6">
+                <div class="w-20 h-20 mx-auto bg-rose-100 rounded-full flex items-center justify-center text-rose-500 shadow-inner mb-3 animate-heart-pulse">
+                    <i class="fas fa-heart text-4xl"></i>
+                </div>
+                <span class="text-amber-600 font-semibold tracking-widest text-xs uppercase">Special Surprise</span>
+            </div>
 
-        <p class="message">
-            Semoga cinta dan kasih sayang yang telah menyatukan kalian berdua senantiasa tumbuh semakin kuat setiap harinya. 
-            Semoga kehidupan rumah tangga Alvin dan Naila senantiasa dilimpahi kebahagiaan, kedamaian, kesehatan, serta keberkahan.
-        </p>
+            <h1 class="font-cursive text-4xl md:text-5xl text-rose-600 mb-2">Alvi & Naila</h1>
+            <p class="text-slate-600 text-sm md:text-base font-light mb-8">Ada pesan manis dan momen indah yang menanti Anda di dalam surat cinta ini...</p>
 
-        <p class="footer-text">
-            "Semoga senantiasa bersama dalam suka dan duka hingga akhir hayat."
-        </p>
-
-        <!-- Tombol Cetak/Simpan PDF -->
-        <button class="action-btn" onclick="window.print()">Cetak / Simpan Kartu</button>
+            <button onclick="openCard()" class="w-full py-4 px-8 bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-600 text-white font-semibold rounded-2xl shadow-lg shadow-rose-300/50 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-3 group">
+                <i class="fas fa-envelope-open text-lg group-hover:rotate-12 transition-transform"></i>
+                <span>Buka Kartu Ucapan</span>
+            </button>
+        </div>
     </div>
 
+    <!-- MAIN ANNIVERSARY CARD (Hidden Initially) -->
+    <main id="main-card" class="hidden w-full max-w-3xl z-20 my-auto transition-all duration-1000 opacity-0 transform scale-95">
+        <div class="glass-card rounded-3xl p-6 md:p-10 border-2 border-white/80 relative shadow-2xl">
+            
+            <!-- Header Title -->
+            <div class="text-center mb-8 relative">
+                <p class="font-serif-title italic text-amber-700 text-sm md:text-base tracking-wider mb-1">Happy Wedding Anniversary</p>
+                <h1 class="font-cursive text-5xl md:text-7xl text-gradient bg-clip-text text-transparent bg-gradient-to-r from-rose-600 via-pink-600 to-amber-600 py-1">
+                    Alvi & Naila
+                </h1>
+                <div class="flex items-center justify-center gap-3 mt-2">
+                    <div class="h-[1px] w-12 bg-gradient-to-r from-transparent to-rose-300"></div>
+                    <i class="fas fa-heart text-rose-500 text-xs"></i>
+                    <div class="h-[1px] w-12 bg-gradient-to-l from-transparent to-rose-300"></div>
+                </div>
+            </div>
+
+            <!-- COUPLE PHOTOS SECTION -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 mb-8 items-center">
+                
+                <!-- HUSBAND: ALVI -->
+                <div class="flex flex-col items-center">
+                    <div class="photo-frame relative w-44 h-44 md:w-52 md:h-52 rounded-full p-2 bg-gradient-to-tr from-amber-300 via-rose-300 to-pink-400">
+                        <div class="w-full h-full rounded-full overflow-hidden bg-white relative group">
+                            <img id="img-alvi" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" alt="Foto Alvi" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <!-- Overlay for Image Upload -->
+                            <label for="upload-alvi" class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white cursor-pointer p-2 text-center">
+                                <i class="fas fa-camera text-2xl mb-1"></i>
+                                <span class="text-xs font-medium">Ubah Foto Alvi</span>
+                            </label>
+                            <input type="file" id="upload-alvi" accept="image/*" class="hidden" onchange="previewImage(event, 'img-alvi')">
+                        </div>
+                        <div class="absolute -bottom-2 right-4 bg-rose-500 text-white text-xs px-3 py-1 rounded-full shadow-md font-semibold flex items-center gap-1">
+                            <i class="fas fa-mars text-xs"></i> Suami
+                        </div>
+                    </div>
+                    <h3 class="mt-4 font-serif-title font-bold text-lg md:text-xl text-slate-800">ALVI</h3>
+                    <p class="text-xs text-rose-500 font-medium">Suami Tercinta</p>
+                </div>
+
+                <!-- WIFE: NAILA -->
+                <div class="flex flex-col items-center">
+                    <div class="photo-frame relative w-44 h-44 md:w-52 md:h-52 rounded-full p-2 bg-gradient-to-tr from-pink-400 via-rose-300 to-amber-300">
+                        <div class="w-full h-full rounded-full overflow-hidden bg-white relative group">
+                            <img id="img-naila" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80" alt="Foto Naila" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <!-- Overlay for Image Upload -->
+                            <label for="upload-naila" class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white cursor-pointer p-2 text-center">
+                                <i class="fas fa-camera text-2xl mb-1"></i>
+                                <span class="text-xs font-medium">Ubah Foto Naila</span>
+                            </label>
+                            <input type="file" id="upload-naila" accept="image/*" class="hidden" onchange="previewImage(event, 'img-naila')">
+                        </div>
+                        <div class="absolute -bottom-2 right-4 bg-pink-500 text-white text-xs px-3 py-1 rounded-full shadow-md font-semibold flex items-center gap-1">
+                            <i class="fas fa-venus text-xs"></i> Istri
+                        </div>
+                    </div>
+                    <h3 class="mt-4 font-serif-title font-bold text-lg md:text-xl text-slate-800">NAILA</h3>
+                    <p class="text-xs text-pink-500 font-medium">Istri Tersayang</p>
+                </div>
+
+            </div>
+
+            <!-- ROMANTIC WISHES MESSAGE BOX -->
+            <div class="bg-rose-50/70 rounded-2xl p-6 md:p-8 border border-rose-100 text-center mb-8 relative shadow-inner">
+                <i class="fas fa-quote-left text-3xl text-rose-200 absolute top-4 left-4"></i>
+                <i class="fas fa-quote-right text-3xl text-rose-200 absolute bottom-4 right-4"></i>
+                
+                <p id="romantic-message" class="text-slate-700 text-sm md:text-base leading-relaxed italic relative z-10 font-serif-title">
+                    "Selamat Hari Jadi Pernikahan untuk <span class="font-semibold text-rose-600">Alvi & Naila</span>. Semoga ikatan cinta ini senantiasa dibalut dengan kehangatan, kasih sayang, dan kebahagiaan yang tak pernah pudar. Semoga setiap langkah bersama menjadi jalan menuju berkah, kedamaian, dan cinta abadi selamanya."
+                </p>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="flex flex-wrap justify-center items-center gap-3 md:gap-4">
+                
+                <!-- Confetti Re-trigger -->
+                <button onclick="triggerConfetti()" class="py-2.5 px-5 bg-amber-500 hover:bg-amber-600 text-white text-xs md:text-sm font-medium rounded-xl shadow-md transition-all flex items-center gap-2 active:scale-95">
+                    <i class="fas fa-gift"></i>
+                    <span>Rayakan Perayaan</span>
+                </button>
+
+                <!-- Edit Custom Message Button -->
+                <button onclick="toggleModal(true)" class="py-2.5 px-5 bg-rose-500 hover:bg-rose-600 text-white text-xs md:text-sm font-medium rounded-xl shadow-md transition-all flex items-center gap-2 active:scale-95">
+                    <i class="fas fa-edit"></i>
+                    <span>Tulis Pesan Kustom</span>
+                </button>
+
+                <!-- Share Happiness Button -->
+                <button onclick="shareCard()" class="py-2.5 px-5 bg-slate-800 hover:bg-slate-900 text-white text-xs md:text-sm font-medium rounded-xl shadow-md transition-all flex items-center gap-2 active:scale-95">
+                    <i class="fas fa-share-alt"></i>
+                    <span>Bagikan Kebahagiaan</span>
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- CUSTOM MESSAGE MODAL -->
+    <div id="custom-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white rounded-3xl p-6 md:p-8 max-w-md w-full shadow-2xl border border-rose-100 transform scale-90 transition-transform duration-300" id="modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-serif-title font-bold text-lg text-slate-800 flex items-center gap-2">
+                    <i class="fas fa-pen-nib text-rose-500"></i> Ubah Teks Ucapan
+                </h3>
+                <button onclick="toggleModal(false)" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i class="fas fa-times text-lg"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-slate-500 mb-4">Tuliskan doa atau kata-kata romantis spesial Anda untuk Alvi & Naila.</p>
+
+            <textarea id="custom-text-input" rows="5" class="w-full p-3.5 border border-rose-200 rounded-xl text-sm focus:ring-2 focus:ring-rose-400 focus:outline-none mb-4 resize-none" placeholder="Tuliskan pesan manis Anda di sini..."></textarea>
+
+            <div class="flex justify-end gap-3">
+                <button onclick="toggleModal(false)" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-semibold rounded-xl transition-colors">
+                    Batal
+                </button>
+                <button onclick="saveCustomMessage()" class="px-5 py-2 bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold rounded-xl shadow-md transition-colors">
+                    Simpan Pesan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-6 z-50 bg-slate-800 text-white text-xs md:text-sm py-3 px-6 rounded-full shadow-2xl opacity-0 transform translate-y-10 transition-all duration-300 pointer-events-none flex items-center gap-2">
+        <i id="toast-icon" class="fas fa-check-circle text-emerald-400"></i>
+        <span id="toast-message">Pesan berhasil diperbarui!</span>
+    </div>
+
+    <!-- Footer Tagline -->
+    <footer class="text-center text-xs text-slate-500 mt-6 z-20">
+        <p class="flex items-center justify-center gap-1">
+            Dibuat dengan <i class="fas fa-heart text-rose-500"></i> untuk Pernikahan <span class="font-semibold text-slate-700">Alvi & Naila</span>
+        </p>
+    </footer>
+
+    <script>
+        // State variables
+        let isMusicPlaying = false;
+        const bgMusic = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+        const musicIcon = document.getElementById('music-icon');
+
+        // Create Falling Petals Animation Dynamically
+        function createPetals() {
+            const container = document.getElementById('petals-container');
+            const petalCount = 20; // Number of petals
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                
+                // Randomize sizes, positions, and durations
+                const size = Math.random() * 12 + 10; // 10px to 22px
+                const left = Math.random() * 100; // 0% to 100%
+                const duration = Math.random() * 6 + 6; // 6s to 12s
+                const delay = Math.random() * 5; // 0s to 5s
+
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size}px`;
+                petal.style.left = `${left}%`;
+                petal.style.animationDuration = `${duration}s`;
+                petal.style.animationDelay = `${delay}s`;
+
+                container.appendChild(petal);
+            }
+        }
+
+        // Open Envelope Card
+        function openCard() {
+            const envScreen = document.getElementById('envelope-screen');
+            const mainCard = document.getElementById('main-card');
+
+            // Hide Envelope Screen
+            envScreen.classList.add('opacity-0', 'scale-90');
+            
+            setTimeout(() => {
+                envScreen.classList.add('hidden');
+                mainCard.classList.remove('hidden');
+                
+                // Trigger Fade In & Scale Up Animation
+                setTimeout(() => {
+                    mainCard.classList.remove('opacity-0', 'scale-95');
+                    mainCard.classList.add('opacity-100', 'scale-100');
+                    
+                    // Trigger Confetti Celebration Effects
+                    triggerConfetti();
+                    
+                    // Auto play audio on open
+                    playMusic();
+                }, 50);
+            }, 500);
+        }
+
+        // Toggle Audio Play/Pause
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                pauseMusic();
+            } else {
+                playMusic();
+            }
+        }
+
+        function playMusic() {
+            bgMusic.play().then(() => {
+                isMusicPlaying = true;
+                musicIcon.classList.remove('fa-music');
+                musicIcon.classList.add('fa-pause', 'text-rose-600');
+                musicBtn.classList.add('ring-2', 'ring-rose-400');
+            }).catch(err => {
+                console.log("Autoplay blocked by browser:", err);
+            });
+        }
+
+        function pauseMusic() {
+            bgMusic.pause();
+            isMusicPlaying = false;
+            musicIcon.classList.remove('fa-pause', 'text-rose-600');
+            musicIcon.classList.add('fa-music');
+            musicBtn.classList.remove('ring-2', 'ring-rose-400');
+        }
+
+        // Image Upload Preview Handler
+        function previewImage(event, targetImgId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById(targetImgId).src = e.target.result;
+                    showToast("Foto berhasil diperbarui!");
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Trigger Confetti Fireworks
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                // First burst
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#f43f5e', '#fda4af', '#d4af37', '#ffffff']
+                });
+
+                // Secondary festive fireworks side bursts
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 40,
+                        angle: 60,
+                        spread: 55,
+                        origin: { x: 0 },
+                        colors: ['#f43f5e', '#d4af37']
+                    });
+                    confetti({
+                        particleCount: 40,
+                        angle: 120,
+                        spread: 55,
+                        origin: { x: 1 },
+                        colors: ['#f43f5e', '#d4af37']
+                    });
+                }, 300);
+            }
+        }
+
+        // Modal Control
+        function toggleModal(show) {
+            const modal = document.getElementById('custom-modal');
+            const modalContent = document.getElementById('modal-content');
+            const currentMsg = document.getElementById('romantic-message').innerText;
+
+            if (show) {
+                document.getElementById('custom-text-input').value = currentMsg.replace(/^"|"$/g, '');
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalContent.classList.remove('scale-90');
+                    modalContent.classList.add('scale-100');
+                }, 10);
+            } else {
+                modal.classList.add('opacity-0');
+                modalContent.classList.remove('scale-100');
+                modalContent.classList.add('scale-90');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        // Save Custom Message
+        function saveCustomMessage() {
+            const newMsg = document.getElementById('custom-text-input').value.trim();
+            if (newMsg) {
+                document.getElementById('romantic-message').innerText = `"${newMsg}"`;
+                toggleModal(false);
+                showToast("Pesan ucapan telah diperbarui!");
+            }
+        }
+
+        // Share Functionality
+        function shareCard() {
+            const shareData = {
+                title: 'Selamat Hari Jadi Pernikahan Alvi & Naila',
+                text: 'Selamat Hari Jadi Pernikahan untuk Alvi & Naila! Semoga cinta senantiasa abadi.',
+                url: window.location.href
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData).catch(() => {});
+            } else {
+                // Fallback: Copy link to clipboard using execCommand
+                const dummy = document.createElement('input');
+                document.body.appendChild(dummy);
+                dummy.value = window.location.href;
+                dummy.select();
+                document.execCommand('copy');
+                document.body.removeChild(dummy);
+                showToast("Tautan kartu ucapan berhasil disalin!");
+            }
+        }
+
+        // Toast Notification Function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            
+            toastMsg.innerText = message;
+            toast.classList.remove('opacity-0', 'translate-y-10');
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-10');
+            }, 3000);
+        }
+
+        // Initialize Falling Petals on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            createPetals();
+        });
+    </script>
 </body>
 </html>
